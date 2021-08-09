@@ -3,6 +3,7 @@
 ## 시작일 2021.08.07
 - - - 
 ## 학습 내용
+### 스프링 시큐리티 기본 API 및 Filter 이해
 #### 2021.08.07 1)프로젝트 구성 및 의존성 추가
 > Spring Security 의존성 사용시 웹 서버의 변화 (Default 설정의 경우)
 > 1. 모든 요청은 인증되어야 자원에 접근 가능
@@ -133,4 +134,15 @@ protected void configure(HttpSecurity http) throws Exception {
 > 2.AccessDeniedException   
 
 #### 2021.08.08 13) 사이트 간 요청 위조 - CSRF, CsrfFilter
-- CSRF 원리
+- CSRF 원리 
+- - - 
+### 스프링 시큐리티 주요 아키텍처 이해
+#### 2021.08.08 1) 위임 필터 및 필터 빈 초기화 - DelegatingProxyChain, FilterChainProxy
+- Servlet Filter의 역할
+> Servlet Filter는 사용자의 요청과 Servlet 사이에 위치하여    
+> 사용자의 요청을 받아 작업을 수행하고 Servlet으로 전달하는 역할과   
+> Servlet에서 사용자의 요청을 처리한 결과에 대한 추가 작업을 수행하고 사용자에게 전달하는 역할을 수행함
+- Servlet Container에서 관리하는 Servlet Filter는 Spring Container에서 관리하는 Bean을 주입할 수 없음
+> DelegatingFilterProxy를 이용하여 Spring Container에서 관리하는 Bean(springSecurityFilterChain)에 요청을 위임하여 Filter 처리를 할 수 있음   
+> ~~밎니?~~ DelegatingFilterProxy과 springSecurityFilterChain은 꼭 다시 찾아서 공부해야함
+- 사용자 정의 필터를 생성해서 기존 필터 순서들 사이에 추가 가능함
