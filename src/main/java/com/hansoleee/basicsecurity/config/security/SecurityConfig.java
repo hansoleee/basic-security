@@ -4,6 +4,7 @@ import com.hansoleee.basicsecurity.config.security.custom.CustomAuthenticationFa
 import com.hansoleee.basicsecurity.config.security.custom.CustomAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Order(0)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;

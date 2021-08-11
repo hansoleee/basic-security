@@ -146,3 +146,43 @@ protected void configure(HttpSecurity http) throws Exception {
 > DelegatingFilterProxy를 이용하여 Spring Container에서 관리하는 Bean(springSecurityFilterChain)에 요청을 위임하여 Filter 처리를 할 수 있음   
 > ~~밎니?~~ DelegatingFilterProxy과 springSecurityFilterChain은 꼭 다시 찾아서 공부해야함
 - 사용자 정의 필터를 생성해서 기존 필터 순서들 사이에 추가 가능함
+
+#### 2021.08.11 2) 필터 초기화와 다중 보안 설정
+- WebSecurityConfigurerAdapter를 상속한 여러개의 Bean을 생성할 수 있음
+> @Order(n) (n >= 0)를 통해 여러개의 Bean을 등록할 수 있음   
+> antMatchers()의 우선 순위를 고려해서 설계해야함   
+
+#### 2021.08.11 3) 인증 개념 이해 - Authentication
+- Authentication의 개념
+> 1.사용자가 누구인지 증명하는 것   
+> 2.인증할 때 id와 password를 담고 인증 검증을 위해 사용됨   
+> 3.인증을 마친 뒤 인증 결과 (User 객체, 권한 정보)를 담고 SecurityContext에 저장되어 전역적으로 참조 가능   
+> ```java
+> Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+> ```
+> 4.구조   
+> - principal : 사용자 아이디 또는 User 객체   
+> - credentials : 사용자 비밀번호   
+> - authorities : 인증된 사용자의 권한 목록   
+> - details : 인증 부가 정보   
+> - authenticated : 인증 여부   
+- Authentication 객체가 인증 흐름에 사용되어지는 과정
+- Authentication 생성자의 종류
+> principal와 credentials를 매개변수로 받는 생성자와 prinipal과 credentials, authorities를 매개변수로 받는 생성자가 있음
+
+#### 2021.08.11 4) 인증 저장소 - SecurityContextHolder, SecurityContext
+- SecurityContext 객체의 역할
+> SecurityContext 객체는 Authentication 객체를 저장하는 역할을 수행함   
+- ThreadLocal의 개념
+> ThreadLocal은 Thread 내부에서 사용하는 지역변수를 갖고있는 객체   
+> get(), set(), remove() API 를 지원함   
+- SecurityContextHolder 객체의 개념과 역할
+> SecurityContext를 감싸는 객체   
+- SecurityContext를 감싸는 3가지 방식
+> 1.MODE_THREADLOCAL : 스레드당 SecurityContext 객체를 할당, 기본값
+> 2.MODE_INHERITABLETHREADLOCAL : 메인 스레드와 자식 스레드에 관하여 동일한 SecurityContext를 유지
+> 3.MODE_GLOBAL : 응용 프로그램에서 단 하나의 SecurityContext 기존 정보 초기화
+- SecurityContext 초기화 방법
+```java
+SecurityContextHolder.clearContext();
+```
