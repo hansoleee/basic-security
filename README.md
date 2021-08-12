@@ -186,3 +186,23 @@ protected void configure(HttpSecurity http) throws Exception {
 ```java
 SecurityContextHolder.clearContext();
 ```
+
+#### 2021.08.12 5) 인증 저장소 필터 - SecurityContextPersistenceFilter
+- SecurityContextPersistenceFilter의 역할
+> SecurityContext 객체의 생성, 저장, 조회를 담당하는 Filter 객체   
+> 1.익명 사용자   
+> 새로운 SecurityContext 객체를 생성하여 SecurityContextHolder에 저장   
+> AnonymousAuthenticationFilter에서 AnonymousAuthenticationToken 객체를 SecurityContext에 저장   
+> 2.인증을 수행할 때    
+> 새로운 SecurityContext 객체를 생성하여 SecurityContextHolder에 저장   
+> UsernamePasswordAuthenticationFilter에서 인증 성공 후 SecurityContext에 UsernamePasswordAuthentication Token 객체를 SecurityContext에 저장   
+> 인증이 최종 완료되면 Session에 SecurityContext를 저장   
+> 3.인증을 받은 경우     
+> Session에서 SecurityContext를 꺼내고 SecurityContextHolder에서 저장   
+> SecurityContext 안에 Authentication 객체가 존재하면 계속 인증을 유지   
+> 4.최종 응답 후    
+> SecurityContextHolder.clearContext(); 를 수행
+
+#### 2021.08.12 6) 인증 흐름 이해 - Authentication Flow
+- 인증에 대한 처리 과정과 각 과정에 사용되는 객체에 대한 이해
+
