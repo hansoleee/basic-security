@@ -206,3 +206,12 @@ SecurityContextHolder.clearContext();
 #### 2021.08.12 6) 인증 흐름 이해 - Authentication Flow
 - 인증에 대한 처리 과정과 각 과정에 사용되는 객체에 대한 이해
 
+#### 2021.08.13 7) 인증 관리자: AuthenticationManager
+- ProviderManager의 처리 과정
+> 만약 ProviderManager에 인증 요청을 처리할 Provider가 존재하지 않는다면   
+> parent ProviderManager에서 인증을 처리할 수 있는 Provider를 찾고 인증 처리를 수행함
+
+#### 2021.08.13 8) AuthenticationProvider
+- AuthenticationProvider의 역할
+> 인증 처리에 가장 핵심적인 역할을 담당
+
