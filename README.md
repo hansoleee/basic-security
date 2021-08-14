@@ -215,3 +215,59 @@ SecurityContextHolder.clearContext();
 - AuthenticationProvider의 역할
 > 인증 처리에 가장 핵심적인 역할을 담당
 
+#### 2021.08.14 9) 인가 개념 및 필터 이해: Authorization, FilterSecurityInterceptor
+- Authorization의 의미
+> Authorization(인가)은 요청이 허가되었는지 확인하는 것
+- Spring Security가 지원하는 권한 계층
+> 1.웹 계층   
+> URL 요청에 따른 메뉴 또는 화면 단위의 레벨 보안   
+> 2.서비스 계층   
+> 화면 단위가 아닌 메소드 같은 기능 단위의 레벨 보안   
+> 3.도메인 계층(Access Control List, 접근 제어 목록)   
+> 객체 단위의 레벨 보안   
+- FilterSecurityInterceptor의 역할
+> 마지막에 위한 필터로써 인증된 사용자에 대하여 특정 요청의 승인/거부 여부를 최종적으로 결정함   
+> 인증 객체 없이 보호 자원에 접근을 시도하는 경우 AuthenticationException을 발생함   
+> 인증 후 자원에 접근 가능한 권한이 존재하지 않을 경우 AccessDeniedException을 발생함   
+> 권한 제어 방식 중 HTTP 자원의 보안을 처리하는 필터   
+> 권한 처리를 AccessDecisionManager에게 위임함   
+
+#### 2021.08.14 10) 인가 결정 심의자 - AccessDecisionManager, AccessDecisionVoter
+- AccessDecisionManager의 역할
+> 인증 정보, 요청 정보, 권한 정보를 이용해서 사용자의 자원 접근을 허용할 것인지 거부할 것인지 최종 결정하는 주체   
+> 여러 개의 Voter들을 가질 수 있으며 Voter들로부터 접근 허용, 거부, 보류에 해당하는 각각의 값을 리턴받고 판단 및 결정   
+> 최종 접근 거부 시 예외 발생
+- 접근 결정의 3가지 유형
+> 1.AffirmativeBased: 여러 개의 Voter 클래스 중 하나라도 접근 허가로 결론을 내면 접근 허가로 판단   
+> 2.ConsensusBased: 다수표(승인 및 거부)에 의해 최종 결정을 판단      
+> 승인/거부 표가 같을 경우 기본 접근 허가이나 allowIfEqualGrantedDeniedDecisions을 False로 설정할 경우 접근 거부 가능함   
+> 3.UnanimousBased: 만장일치가 될 경우만 접근 허가로 판단   
+- AccessDecisionVoter의 역할
+>1.판단을 심사 (위원)   
+> 2.Voter가 권한 부여 과정에서 판단하는 자료   
+> Authentication - 인증 정보 (ROLE_USER)   
+> FilterInvocation - 요청 정보 (antMatcher("/user"))   
+> ConfigAttributes - 권한 정보 (hasRole("USER"))   
+> 3.결정 방식   
+> ACCESS_GRANTED : 접근 허용 (1)   
+> ACCESS_DENIED : 접근 거부 (-1)   
+> ACCESS_ABSTAIN : 접근 보류 (0)   
+
+#### 2021.08.14 11) Spring Security Filter 및 Architecture 정리
+- 익명 사용자가 인증 요청을 보낸 경우 인증 처리 과정
+- 이미 인증된 사용자가 리소스 요청을 보낸 경우 인증 처리 과정
+- 이미 인증된 객체가 존재하고 같은 사용자 정보로 새로운 인증 요청을 보낸 경우 인증 처리 과정
+
+### 실전 프로젝트 - 인증 프로세스 Form 인증 구현
+#### 2021.08.14 1) 실전 프로젝트 생성
+> 다음 강의 부터는 새로운 프로젝트를 만들어 진행함
+
+[core-spring-security](https://github.com/hansoleee/core-spring-security.git "core-spring-security")
+
+
+
+
+
+
+
+
